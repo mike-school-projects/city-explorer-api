@@ -1,11 +1,12 @@
 # Project Name
 
 **Author**: Mike Shen
-**Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 2.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
 
-Backend server for city-explorer website. Given city, lat, and lon, respond with weather data
+Backend server for city-explorer website.
+API calls out for location, weather, and movie information
 
 ## Getting Started
 
@@ -13,8 +14,11 @@ update .env with API keys
 
 ## Architecture
 
-Currently using static json weather data.
-Future build will have live data
+[Whiteboard / WRCC diagram](https://mikeshen926191.invisionapp.com/freehand/City-Explorer-B9WqVm3pC?dsid_h=a623598a8ded241e56dc0a390d767c82cbdc3a4f3844104c929b35beef190039&uid_h=cb08dec7ece6a9f52098e8b9edfd4330e40a53876f81c120382ecff9ccb5784d)
+
+[Trello](https://trello.com/invite/b/ivgyoLuB/ATTI94eb0732153a433a87b7d392b083127e4B437EF5/module-2-city-explorer)
+
+API calls return object with appropriate information
 
 ## Change Log
 
@@ -54,3 +58,23 @@ Start time: 3:10
 Finish time: 3:30
 
 Actual time needed to complete: 20 minutes
+
+### Name of feature: Weather(live)
+
+Estimate of time needed to complete: 2 hrs
+
+Start time: 5:00 pm
+
+Finish time: 8:00 pm
+
+Actual time needed to complete: 3 hours
+
+### Name of feature: Movies
+
+Estimate of time needed to complete: 2 hrs
+
+Start time: 8:00 pm
+
+Finish time: 10:00 pm
+
+Actual time needed to complete: 2 hours
