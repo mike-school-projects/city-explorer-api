@@ -1,7 +1,7 @@
 # Project Name
 
 **Author**: Mike Shen
-**Version**: 2.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 3.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
 
@@ -23,6 +23,8 @@ API calls return object with appropriate information
 ## Change Log
 
 1/16/2023 3:45PM v1.01.01 initial build
+1/17/2023 11:00PM V2 added API calls
+1/18/2023 11:15AM v3 refactor with modules
 
 ## Credit and Collaborations
 
@@ -78,3 +80,13 @@ Start time: 8:00 pm
 Finish time: 10:00 pm
 
 Actual time needed to complete: 2 hours
+
+### Name of feature: Refactor
+
+Estimate of time needed to complete: 1 hrs
+
+Start time: 10:00 AM
+
+Finish time: 11:15 AM
+
+Actual time needed to complete: 1.25 hours
