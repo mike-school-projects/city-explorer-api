@@ -4,22 +4,21 @@ const axios = require('axios');
 let cache = require('./cache.js');
 
 // ******** Global Variables
-let restaurantData = {};
+let yelpData = {};
 
-async function getRestaurants(request, response) {
-  // http://localhost:3001/restaurants?lat=47.6038321&lon=-122.330062
-
+async function getYelp(request, response) {
+  // http://localhost:3001/yelp?lat=47.6038321&lon=-122.330062
 
   try {
     let lat = request.query.lat;
     let lon = request.query.lon;
 
     // Try cache first
-    let key = `${lat}${lon}}Restaurants`;
+    let key = `${lat}${lon}Yelp`;
 
     if (cache[key] && ((Date.now() - cache[key].timeStamp) < 14400000)) {
       console.log('good cache restaurant data');
-      restaurantData = cache[key].data;
+      yelpData = cache[key].data;
     }
 
     // Bad cache data.  Call API
@@ -39,34 +38,34 @@ async function getRestaurants(request, response) {
       let dataToGroom;
       dataToGroom = await axios.get(url, config);
       dataToGroom = dataToGroom.data.businesses;
-
-      restaurantData.restaurants = dataToGroom.map((element) => {
+      console.log(dataToGroom[0]);
+      yelpData.restaurants = dataToGroom.map((element) => {
         return new Restaurants(element);
       });
 
-      restaurantData.show = 'block';
-      restaurantData.error = false;
-      restaurantData.errorMessage = '';
-      restaurantData.errorCode = '';
-      restaurantData.timeStamp = Date.now();
+      yelpData.show = 'block';
+      yelpData.error = false;
+      yelpData.errorMessage = '';
+      yelpData.errorCode = '';
+      yelpData.timeStamp = Date.now();
 
       // Cache results from API call
       cache[key] = {
-        data: restaurantData,
-        timeStamp: restaurantData.timeStamp,
+        data: yelpData,
+        timeStamp: yelpData.timeStamp,
       };
     }
 
-    response.status(200).send(restaurantData);
+    response.status(200).send(yelpData);
     console.log(cache);
 
   } catch (error) {
-    restaurantData.restaurants = [];
-    restaurantData.show = 'none';
-    restaurantData.error = true;
-    restaurantData.errorMessage = error.message;
-    restaurantData.errorCode = error.response.status;
-    response.status(error.response.status).send(restaurantData);
+    yelpData.restaurants = [];
+    yelpData.show = 'none';
+    yelpData.error = true;
+    yelpData.errorMessage = error.message;
+    yelpData.errorCode = error.response.status;
+    response.status(error.response.status).send(yelpData);
   }
 }
 
@@ -78,7 +77,8 @@ let Restaurants = class {
     this.rating = dataObj.rating;
     this.phone = dataObj.display_phone;
     this.url = dataObj.url;
+    this.price = dataObj.price;
   }
 };
 
-module.exports = getRestaurants;
+module.exports = getYelp;

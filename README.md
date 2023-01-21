@@ -1,12 +1,12 @@
 # Project Name
 
 **Author**: Mike Shen
-**Version**: 3.0.0 (increment the patch/fix version number if you make more commits past your first submission)
+**Version**: 4.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
 
 Backend server for city-explorer website.
-API calls out for location, weather, and movie information
+API calls out for location, weather, movie, and restaurant information
 
 ## Getting Started
 
@@ -25,6 +25,7 @@ API calls return object with appropriate information
 1/16/2023 3:45PM v1.01.01 initial build
 1/17/2023 11:00PM V2 added API calls
 1/18/2023 11:15AM v3 refactor with modules
+1/20/2023 6:45PM v4 with cache and restaurant info
 
 ## Credit and Collaborations
 
@@ -90,3 +91,23 @@ Start time: 10:00 AM
 Finish time: 11:15 AM
 
 Actual time needed to complete: 1.25 hours
+
+### Name of feature: Cache
+
+Estimate of time needed to complete: 1 hrs
+
+Start time: 11:00 AM
+
+Finish time: 11:30 AM
+
+Actual time needed to complete: 0.5 hrs
+
+### Name of feature: Yelp
+
+Estimate of time needed to complete: 2 hrs
+
+Start time: 4:00 PM
+
+Finish time: 6:45 PM
+
+Actual time needed to complete: 2 hr 45 min

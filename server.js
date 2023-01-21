@@ -6,7 +6,7 @@ const cors = require('cors');
 const getLocation = require('./modules/location');
 const getWeather = require('./modules/weather');
 const getMovies = require('./modules/movies');
-const getRestaurants = require('./modules/restaurants');
+const getYelp = require('./modules/yelp');
 
 // Start express
 const app = express();
@@ -34,8 +34,8 @@ app.get('/movies', async (request, response) => {
   getMovies(request,response);
 });
 
-app.get('/restaurants', async (request, response) => {
-  getRestaurants(request,response);
+app.get('/yelp', async (request, response) => {
+  getYelp(request,response);
 });
 
 // **** CATCH-ALL ENDPOINT - must be last
