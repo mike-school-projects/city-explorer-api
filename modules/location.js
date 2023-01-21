@@ -37,7 +37,6 @@ async function getLocation(request, response) {
     }
 
     response.status(200).send(locationData);
-    console.log(cache);
 
   } catch (error) {
     locationData.lat = '';

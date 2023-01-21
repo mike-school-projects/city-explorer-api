@@ -50,7 +50,6 @@ async function getMovies(request, response) {
     }
 
     response.status(200).send(movieData);
-    console.log(cache);
 
   } catch (error) {
     movieData.movies = [];

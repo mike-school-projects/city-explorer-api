@@ -17,16 +17,13 @@ async function getWeather(request, response) {
 
     // Try cache first
     let key = `${lat}${lon}Weather`;
-    console.log(key);
 
     if (cache[key] && ((Date.now() - cache[key].timeStamp) < 14400000)) {
-      console.log('good cache weather data');
       weatherData = cache[key].data;
     }
 
     // Bad cache data.  Call API
     else {
-      console.log('bad cache weather data');
       let url = `http://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_API_KEY}&units=I&lat=${lat}&lon=${lon}`;
 
       let dataToGroom = await axios.get(url);
@@ -49,7 +46,6 @@ async function getWeather(request, response) {
     }
 
     response.status(200).send(weatherData);
-    console.log(cache);
 
   } catch (error) {
     weatherData.forecast = [];
