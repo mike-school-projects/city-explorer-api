@@ -1,31 +1,55 @@
 'use strict';
-// *** REQUIRES
+// ******** REQUIRES ****************************
 const axios = require('axios');
+let cache = require('./cache.js');
 
-// ******** Global Variables
+// ******** GLOBAL VARIABLES ********************
 let weatherData = {
   forecast: [],
 };
 
+// ******** FUNCTIONS ***************************
 async function getWeather(request, response) {
   // http://localhost:3001/weather?lat=47.6038321&lon=-122.330062
   try {
     let lat = request.query.lat;
     let lon = request.query.lon;
 
-    let url = `http://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_API_KEY}&units=I&lat=${lat}&lon=${lon}`;
+    // Try cache first
+    let key = `${lat}${lon}Weather`;
+    console.log(key);
 
-    let dataToGroom = await axios.get(url);
-    dataToGroom = dataToGroom.data.data;
+    if (cache[key] && ((Date.now() - cache[key].timeStamp) < 14400000)) {
+      console.log('good cache weather data');
+      weatherData = cache[key].data;
+    }
 
-    weatherData.forecast = dataToGroom.map((element) => {
-      return new Forecast(element);
-    });
-    weatherData.show = 'block';
-    weatherData.error = false;
-    weatherData.errorMessage = '';
-    weatherData.errorCode = '';
+    // Bad cache data.  Call API
+    else {
+      console.log('bad cache weather data');
+      let url = `http://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_API_KEY}&units=I&lat=${lat}&lon=${lon}`;
+
+      let dataToGroom = await axios.get(url);
+      dataToGroom = dataToGroom.data.data;
+
+      weatherData.forecast = dataToGroom.map((element) => {
+        return new Forecast(element);
+      });
+      weatherData.show = 'block';
+      weatherData.error = false;
+      weatherData.errorMessage = '';
+      weatherData.errorCode = '';
+      weatherData.timeStamp = Date.now();
+
+      // Cache results from API call
+      cache[key] = {
+        data: weatherData,
+        timeStamp: weatherData.timeStamp,
+      };
+    }
+
     response.status(200).send(weatherData);
+    console.log(cache);
 
   } catch (error) {
     weatherData.forecast = [];
@@ -37,7 +61,7 @@ async function getWeather(request, response) {
   }
 }
 
-// ********* Class objects
+// ********* CLASS OBJECTS **********************
 let Forecast = class {
   constructor(dataObj) {
     this.date = dataObj.valid_date;

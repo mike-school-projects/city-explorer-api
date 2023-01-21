@@ -1,6 +1,7 @@
 'use strict';
 // *** REQUIRES
 const axios = require('axios');
+let cache = require('./cache.js');
 
 // ******** Global Variables
 let movieData = {};
@@ -10,26 +11,46 @@ async function getMovies(request, response) {
   try {
     let city = request.query.city;
 
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=en-US&page=1&include_adult=false&query=${city}`;
+    // Try cache first
+    let key = `${city}Movie`;
 
-    let dataToGroom = await axios.get(url);
-    dataToGroom = dataToGroom.data.results;
+    // If exists and less than 4 hours old, use cache
+    if (cache[key] && ((Date.now() - cache[key].timeStamp) < 14400000)) {
+      movieData = cache[key].data;
+    }
 
-    movieData.movies = dataToGroom.map((element) => {
-      return new Movie(element);
-    });
+    // Bad cache data.  Call API
+    else {
+      let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&language=en-US&page=1&include_adult=false&query=${city}`;
 
-    movieData.movies.forEach((element) => {
-      if (element.image_url === 'https://image.tmdb.org/t/p/w500null') {
-        element.image_url = 'https://via.placeholder.com/500';
-      }
-    });
+      let dataToGroom = await axios.get(url);
+      dataToGroom = dataToGroom.data.results;
 
-    movieData.show = 'block';
-    movieData.error = false;
-    movieData.errorMessage = '';
-    movieData.errorCode = '';
+      movieData.movies = dataToGroom.map((element) => {
+        return new Movie(element);
+      });
+
+      movieData.movies.forEach((element) => {
+        if (element.image_url === 'https://image.tmdb.org/t/p/w500null') {
+          element.image_url = 'https://via.placeholder.com/500';
+        }
+      });
+
+      movieData.show = 'block';
+      movieData.error = false;
+      movieData.errorMessage = '';
+      movieData.errorCode = '';
+      movieData.timeStamp = Date.now();
+
+      // Cache results from API call
+      cache[key] = {
+        data: movieData,
+        timeStamp: movieData.timeStamp,
+      };
+    }
+
     response.status(200).send(movieData);
+    console.log(cache);
 
   } catch (error) {
     movieData.movies = [];
