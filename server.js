@@ -3,10 +3,10 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
-const { response } = require('express');
 const getLocation = require('./modules/location');
 const getWeather = require('./modules/weather');
 const getMovies = require('./modules/movies');
+const getRestaurants = require('./modules/restaurants');
 
 // Start express
 const app = express();
@@ -32,6 +32,10 @@ app.get('/weather', async (request, response) => {
 
 app.get('/movies', async (request, response) => {
   getMovies(request,response);
+});
+
+app.get('/restaurants', async (request, response) => {
+  getRestaurants(request,response);
 });
 
 // **** CATCH-ALL ENDPOINT - must be last
